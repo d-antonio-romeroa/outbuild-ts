@@ -36,7 +36,6 @@ export default class TokenRequest implements IRequestValidator<ITokenRequest> {
             iat: yup.number().required('required'),
             exp: yup.number().required('required'),
         });
-    
         return validationSchema.validate({
             sub,
             exp,

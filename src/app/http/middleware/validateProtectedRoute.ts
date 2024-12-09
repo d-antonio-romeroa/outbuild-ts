@@ -4,7 +4,7 @@ import { ForbiddenError, UnAuthorizedError } from "../../utils/classes/error";
 import AuthService from "../../../app/services/auth.service";
 import TokenRequest from "../requests/auth/token.requests";
 
-export async function validateProtectedRoute(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function validateProtectedRoute(req: any, res: Response, next: NextFunction): Promise<void> {
 
     const authService = new AuthService();
 
@@ -29,6 +29,8 @@ export async function validateProtectedRoute(req: Request, res: Response, next: 
 
     try {
         const user = await authService.getUserById(sub);
+
+        req.userId = Number(sub);
 
     } catch (error) {
         console.log(error);
