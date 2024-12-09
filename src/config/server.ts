@@ -9,10 +9,9 @@ import {errorHandler} from '../app/http/middleware/errorHandler';
 import swaggerUI from 'swagger-ui-express';
 import swaggerDocument from '../swagger';
 import apiV1Router from "../routes/v1";
-import apiLogger, { requestTimeLogger } from "../app/http/middleware/logger";
+import apiLoggerMiddleware, { requestTimeLogger } from "../app/http/middleware/logger";
 import rateLimitHandler from "../app/http/middleware/rateLimit";
-import ApiResponse from "../app/http/responses/ApiResponses";
-import winstonLogger from "../app/utils/logger/winston.logger";
+import apiLogger from "../app/utils/logger/api.logger";
 import { randomUUID } from "crypto";
 
 const PORT = process.env.PORT || 3000;
@@ -25,7 +24,7 @@ export class ExpressServerApp {
         try {
             this.start();
         } catch (error) {
-            winstonLogger.error(error);
+            apiLogger.error(error);
         }
     }
 
@@ -36,26 +35,18 @@ export class ExpressServerApp {
             next();
         });
 
-        this.#serverInstance.use(apiLogger);
+        this.#serverInstance.use(apiLoggerMiddleware);
         
         this.#serverInstance.use(requestTimeLogger);
 
-        this.#serverInstance.use(rateLimitHandler);
-        
-        this.#serverInstance.use(express.json());
+        this.#serverInstance.use(express.json({ limit: '10mb' }));
+
+        this.#serverInstance.use(rateLimitHandler);        
         
         // set logger middleware
         
         // set swagger docs middleware
         this.#serverInstance.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-        
-        // this.#serverInstance.use(async (req, res, next) => {
-        //     try {
-        //         await next()
-        //     } catch (error) {
-        //         ApiResponse.error(res, 'Internal Server Error');
-        //     }
-        // })
         
         DbConnection.authenticate();
         
