@@ -6,7 +6,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
   return `${timestamp} [${label}] ${level.toUpperCase()}: ${message}`;
 });
 
-const winstonLogger = winston.createLogger({
+const apiLogger = winston.createLogger({
   level: 'debug',
   format: combine(
     label({ label: 'APIv1' }),
@@ -20,4 +20,4 @@ const winstonLogger = winston.createLogger({
   ]
 });
 
-export default winstonLogger;
+export default apiLogger;
