@@ -13,7 +13,7 @@ export default class SchedulesRepository extends Schedule {
         return Schedule.create(data as any, options)
     }
 
-    getById(id: number, options: FindOptions<Schedule> ) {
+    getById(id: number, options: FindOptions<Schedule> = {} ) {
         return Schedule.findOne({
             ...options,
             where: {

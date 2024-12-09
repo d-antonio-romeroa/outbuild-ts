@@ -11,10 +11,10 @@ export default class ActivitiesService {
         return this;
     }
 
-    async create(scheduleData: IAddActivityToScheduleRequest) {
-        const scheduleBelongsToUser = await this.schedulesRepository.getById(scheduleData.schedule_id, {
+    async create(activityData: IAddActivityToScheduleRequest) {
+        const scheduleBelongsToUser = await this.schedulesRepository.getById(activityData.schedule_id, {
             where: {
-                user_id: scheduleData.user_id
+                user_id: activityData.user_id
             }
         });
 
@@ -22,15 +22,15 @@ export default class ActivitiesService {
             throw new NotFoundError();
         }
 
-        const schedule = await this.activitiesRepository.create(scheduleData);
+        const schedule = await this.activitiesRepository.create(activityData);
 
         return schedule;
     }
 
-    async bulkCreate(scheduleData: IAddActivityToScheduleRequest[]) {
-        const scheduleBelongsToUser = await this.schedulesRepository.getById(scheduleData[0].schedule_id, {
+    async bulkCreate(activityData: IAddActivityToScheduleRequest[]) {
+        const scheduleBelongsToUser = await this.schedulesRepository.getById(activityData[0].schedule_id, {
             where: {
-                user_id: scheduleData[0].user_id
+                user_id: activityData[0].user_id
             }
         });
 
@@ -38,7 +38,7 @@ export default class ActivitiesService {
             throw new NotFoundError();
         }
 
-        const schedule = await this.activitiesRepository.bulkCreate(scheduleData);
+        const schedule = await this.activitiesRepository.bulkCreate(activityData);
 
         return schedule;
     }
@@ -52,5 +52,10 @@ export default class ActivitiesService {
         }
 
         return schedule;
+    }
+
+    createJob = async (payload: IAddActivityToScheduleRequest) => {
+        console.log({payload});
+        this.create(payload);
     }
 }

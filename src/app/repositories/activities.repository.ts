@@ -20,4 +20,14 @@ export default class ActivitiesRepository extends Activity {
     getById(id: number, options: FindOptions<Activity> ) {
         return Activity.findByPk(id, options)
     }
+
+    getPaginatedByScheduleId(schedule_id: number, offset: number = 0, limit: number =  5) {
+        return Activity.findAndCountAll({
+            where: {
+                schedule_id,
+            },
+            offset,
+            limit
+        })
+    }
 }

@@ -3,24 +3,23 @@ import SchedulesService from "../../services/schedules.service";
 import GetScheduleByIdRequest from "../requests/schedules/getById.requests";
 import RequestValidator from "../../utils/classes/request-validator";
 import CreateScheduleRequest from "../requests/schedules/create.requests";
+import ApiResponse from "../responses/ApiResponses";
+import GetScheduleByIdWithActivitesPaginatedRequest, { IGetScheduleByIdWithActivitesPaginatedRequest as IGetScheduleByIdWithPaginatedActivitesRequest } from "../requests/schedules/getByIdWithActivitiesPaginated.requests";
 
 export default class SchedulesController {
-    schedulesService = new SchedulesService();
+    #schedulesService = new SchedulesService();
 
     constructor() {
-        this.schedulesService = new SchedulesService();
+        this.#schedulesService = new SchedulesService();
     }
 
     create = async(req: Request, res: Response, next: NextFunction) => {
 
         const scheduleParams = await RequestValidator.validate(CreateScheduleRequest, req, res, next);
 
-        const schedules = await this.schedulesService.create(scheduleParams);
+        const data = await this.#schedulesService.create(scheduleParams);
 
-        return res.json({
-            data: schedules,
-            success: true
-        });
+        ApiResponse.success(res, data);
 
     }
 
@@ -28,14 +27,17 @@ export default class SchedulesController {
 
         const scheduleParams = await RequestValidator.validate(GetScheduleByIdRequest, req, res, next);
 
-        // console.log({ scheduleParams, thiss: this });
+        const data = await this.#schedulesService.getById(scheduleParams.id);
 
-        const schedules = await this.schedulesService.getById(scheduleParams.id);
+        ApiResponse.success(res, data);
+    }
 
-        return res.json({
-            data: schedules,
-            success: true
-        });
+    getByIdWithActivities = async(req: Request, res: Response, next: NextFunction) => {
 
+        const scheduleParams: IGetScheduleByIdWithPaginatedActivitesRequest = await RequestValidator.validate(GetScheduleByIdWithActivitesPaginatedRequest, req, res, next);
+
+        const data = await this.#schedulesService.getByIdWithActivitiesPaginated(scheduleParams);
+
+        ApiResponse.success(res, data);
     }
 }
