@@ -10,11 +10,38 @@ class ApiResponse {
    * @param message Optional message describing the response.
    * @param statusCode HTTP status code (default: 200).
    */
-  static success(res: Response, data: any = null, message: string = 'Success', statusCode: number = 200) {
+  static success(res: Response, data: any = null, message: string | undefined = undefined, statusCode: number = 200) {
     return res.status(statusCode).json({
       success: 1,
       message,
       data,
+    });
+  }
+
+  /**
+   * Send a created response.
+   * @param res Express Response object.
+   * @param data The data to return in the response.
+   * @param message Optional message describing the response.
+   * @param statusCode HTTP status code (default: 200).
+   */
+    static created(res: Response, data: any = null, message: string | undefined = undefined, statusCode: number = 201) {
+      return res.status(statusCode).json({
+        success: 1,
+        data,
+      });
+    }
+
+  /**
+   * Send a success response.
+   * @param res Express Response object.
+   * @param data The data to return in the response.
+   * @param message Optional message describing the response.
+   * @param statusCode HTTP status code (default: 200).
+   */
+  static accepted(res: Response, data: any = null, message: string | undefined = undefined, statusCode: number = 202) {
+    return res.status(statusCode).json({
+      success: 1,
     });
   }
 
