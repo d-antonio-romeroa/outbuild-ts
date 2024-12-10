@@ -3,10 +3,11 @@ import { generateUserJwtSecret, verifyToken } from "../../utils/auth/jwt.util";
 import { ForbiddenError, UnAuthorizedError } from "../../utils/classes/error";
 import AuthService from "../../../app/services/auth.service";
 import TokenRequest from "../requests/auth/token.requests";
+import UserService from "../../../app/services/users.service";
 
 export async function validateProtectedRoute(req: any, res: Response, next: NextFunction): Promise<void> {
 
-    const authService = new AuthService();
+    const userService = new UserService();
 
     const decodedToken = await (new TokenRequest()).validate(req, res, next);
     let token: string = (req.headers.authorization! as string).split(' ')[1];
@@ -28,7 +29,7 @@ export async function validateProtectedRoute(req: any, res: Response, next: Next
     // }
 
     try {
-        const user = await authService.getUserById(sub);
+        const user = await userService.getUserById(sub);
 
         req.userId = Number(sub);
 
