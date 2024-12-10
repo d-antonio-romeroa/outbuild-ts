@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config({});
+
 import { Sequelize } from 'sequelize-typescript';
 import { User } from '../app/models/user.model';
 import { Schedule } from '../app/models/schedule.model';
