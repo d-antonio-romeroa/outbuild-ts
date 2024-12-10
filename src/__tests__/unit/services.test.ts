@@ -27,9 +27,7 @@ describe('Auth services', () => {
 
     beforeAll(async () => {
         await DbConnection.authenticate();
-        activitiesService = new ActivitiesService();
         authService = new AuthService();
-        schedulesService = new SchedulesService();
     });
 
     it('register an user', async () => {
