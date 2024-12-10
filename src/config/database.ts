@@ -10,16 +10,22 @@ import { Job } from '../jobs/models/job.model';
 import { FailedJob } from '../jobs/models/failed_job.model';
 
 const {
-    DB_USERNAME,
-    DB_PASSWORD,
-    DB_DATABASE,
-    DB_HOST,
+  DB_USERNAME,
+  DB_PASSWORD,
+  DB_DATABASE,
+  DB_HOST,
 } = process.env;
 
 // Example configuration
 const DbConnection = new Sequelize(DB_DATABASE!, DB_USERNAME!, DB_PASSWORD!, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
   host: DB_HOST,
-  dialect:'postgres', // 'postgres', 'sqlite', etc.,
+  dialect: 'postgres', // 'postgres', 'sqlite', etc.,
   models: [User, Schedule, Activity, Job, FailedJob],
   logging: (q) => {
     console.log('')
