@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import * as yup from 'yup';
 import { IRequestValidator } from '../../../utils/classes/request-validator';
-import { BadRequestError, UnAuthorizedError } from '../../../utils/classes/error';
-import { decodeToken } from '../../../utils/auth/jwt.util';
 
 export interface ILoginRequest {
     email: string;
     password: string;
+    ua: string;
+    ip: string;
 }
 
 export default class LoginRequest implements IRequestValidator<ILoginRequest> {
@@ -24,10 +24,16 @@ export default class LoginRequest implements IRequestValidator<ILoginRequest> {
             password: yup.string().required('required'),
         });
     
-        return validationSchema.validate({
+        const validatedData = await validationSchema.validate({
             email,
             password,
         });
+
+        return {
+            ...validatedData,
+            ua: request.get('user-agent')!,
+            ip: request.ip!
+        }
     };
 
 }

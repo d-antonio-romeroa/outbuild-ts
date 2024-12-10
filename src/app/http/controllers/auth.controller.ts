@@ -5,6 +5,7 @@ import { hashPassword } from "../../utils/encryption.utils";
 import { User } from "../../models/user.model";
 import RequestValidator from "../../utils/classes/request-validator";
 import LoginRequest from "../requests/auth/login.requests";
+import RegisterRequest from "../requests/auth/register.requests";
 
 export default class AuthController {
     #authService = new AuthService();
@@ -13,20 +14,22 @@ export default class AuthController {
     }
 
     login = async (req: Request, res: Response, next: NextFunction) => {
-        const {email, password} = await RequestValidator.validate(LoginRequest, req, res, next);
+        const loginData = await RequestValidator.validate(LoginRequest, req, res, next);
 
-        const data = await this.#authService.login(email, password, req);
+        const data = await this.#authService.login(loginData);
 
         ApiResponse.success(res, data);
     };
 
     register = async (req: Request, res: Response, next: NextFunction) => {
 
+        const registerData = await RequestValidator.validate(RegisterRequest, req, res, next);
+
         const {
             username,
             email,
             password
-        } = req.body;
+        } = registerData;
 
         const newUser =
             new User({

@@ -4,7 +4,7 @@ import GetScheduleByIdRequest from "../requests/schedules/getById.requests";
 import RequestValidator from "../../utils/classes/request-validator";
 import CreateScheduleRequest from "../requests/schedules/create.requests";
 import ApiResponse from "../responses/ApiResponses";
-import GetScheduleByIdWithActivitesPaginatedRequest, { IGetScheduleByIdWithActivitesPaginatedRequest as IGetScheduleByIdWithPaginatedActivitesRequest } from "../requests/schedules/getByIdWithActivitiesPaginated.requests";
+import GetScheduleByIdWithActivitesPaginatedRequest, { IGetScheduleByIdWithActivitesPaginatedRequest } from "../requests/schedules/getByIdWithActivitiesPaginated.requests";
 
 export default class SchedulesController {
     #schedulesService = new SchedulesService();
@@ -34,7 +34,7 @@ export default class SchedulesController {
 
     getByIdWithActivities = async(req: Request, res: Response, next: NextFunction) => {
 
-        const scheduleParams: IGetScheduleByIdWithPaginatedActivitesRequest = await RequestValidator.validate(GetScheduleByIdWithActivitesPaginatedRequest, req, res, next);
+        const scheduleParams: IGetScheduleByIdWithActivitesPaginatedRequest = await RequestValidator.validate(GetScheduleByIdWithActivitesPaginatedRequest, req, res, next);
 
         const data = await this.#schedulesService.getByIdWithActivitiesPaginated(scheduleParams);
 
