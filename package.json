@@ -5,10 +5,12 @@
   "scripts": {
     "test": "vitest --coverage",
     "start": "ts-node src/index.ts",
+    "docker:start": "docker compose up -d --build",
+    "docker:stop": "docker compose down",
     "dev": "nodemon src/index.ts",
     "job": "nodemon src/jobs/worker.ts",
     "build": "tsc",
-    "serve": "node dist/index.js"
+    "serve": "npm run build && node ./dist/index.js"
   },
   "keywords": [],
   "author": "DANIEL ROMERO A",

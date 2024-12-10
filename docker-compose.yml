@@ -1,0 +1,22 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - api-network
+    restart: always
+    volumes:
+      # - ./logs:/usr/src/app/logs
+      # - ./src:/usr/src/app/src
+      - /usr/app/node_modules
+
+networks:
+  api-network:
+    driver: bridge
