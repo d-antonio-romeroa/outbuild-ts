@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'schedule',
+    modelName: 'Schedule',
     tableName: 'schedules',
     timestamps: true,
     paranoid: true
