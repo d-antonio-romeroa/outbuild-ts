@@ -59,7 +59,7 @@ describe('Auth services', () => {
                 ua: 'USER-AGENT-HEADER',
                 ip: '127.0.0.1'
             });
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
             expect(error.message).toBe('Unauthorized');
         }
