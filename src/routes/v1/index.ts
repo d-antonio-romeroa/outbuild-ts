@@ -75,15 +75,14 @@ const userRouter = express.Router();
  *       - required: true
  *       - bearerAuth: ['1234']
  */
+userRouter.get('/:userId/schedules/:scheduleId', schedulesController.getByIdWithActivities as any)
+
 userRouter.post('/:userId/schedules', schedulesController.create as any)
 
 userRouter.post('/:userId/schedules/:scheduleId/activities', activitiesController.create as any)
 
 userRouter.post('/:userId/schedules/:scheduleId/activities/bulk', activitiesController.bulkCreate as any)
 
-apiV1Router.use('/users', userRouter);
-
-
-apiV1Router.use('/schedules', scheduleRouter);
+userRouter.post('/:userId/schedules/:scheduleId/activities/bulk-queue', activitiesController.bulkCreateWithQueue as any)
 
 export default apiV1Router;
