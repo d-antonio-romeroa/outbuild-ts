@@ -37,7 +37,14 @@ IV=string
 
 ```
 
-3. Start the project using Docker.
+3. Optional - execute sequelize migrations and seeders:
+
+```bash
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+```
+
+4. Start the project using Docker.
 
 ```bash
 npm run docker:start
@@ -45,6 +52,12 @@ npm run docker:start
 
 - Depending on the defined `NODE_ENV`, the project will start in dev, test, or production mode.
 - Once started, the Swagger documentation is available at `http://localhost:{PORT}/api-docs`.
+
+To stop docker containers execute:
+
+```bash
+npm run docker:stop
+```
 
 ## Project Explanation
 
