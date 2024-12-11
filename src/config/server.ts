@@ -7,7 +7,7 @@ import {errorHandler} from '../app/http/middleware/errorHandler';
 
 
 import swaggerUI from 'swagger-ui-express';
-import swaggerDocument from '../swagger';
+import swaggerDocument from './swagger';
 import apiV1Router from "../routes/v1";
 import apiLoggerMiddleware, { requestTimeLogger } from "../app/http/middleware/logger";
 import rateLimitHandler from "../app/http/middleware/rateLimit";
