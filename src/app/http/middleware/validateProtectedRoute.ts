@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { generateUserJwtSecret, verifyToken } from "../../utils/auth/jwt.util";
-import { ForbiddenError, UnAuthorizedError } from "../../utils/classes/error";
-import AuthService from "../../../app/services/auth.service";
+import { UnAuthorizedError } from "../../utils/classes/error";
 import TokenRequest from "../requests/auth/token.requests";
 import UserService from "../../../app/services/users.service";
 
@@ -23,10 +22,6 @@ export async function validateProtectedRoute(req: any, res: Response, next: Next
     } catch (error) {
         throw new UnAuthorizedError(error as any);
     }
-
-    // if(req.url.includes('users/') && Number(req.url.split('/').findIndex()) !== sub) {
-    //     throw new ForbiddenError();
-    // }
 
     try {
         const user = await userService.getUserById(sub);
