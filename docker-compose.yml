@@ -13,8 +13,22 @@ services:
       - api-network
     restart: always
     volumes:
-      # - ./logs:/usr/src/app/logs
-      # - ./src:/usr/src/app/src
+      - /usr/app/node_modules
+
+  jobs:
+    build:
+      context: .
+      dockerfile: src/jobs/Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    ports:
+      - 3002:3002
+    networks:
+      - api-network
+    restart: always
+    volumes:
       - /usr/app/node_modules
 
 networks:

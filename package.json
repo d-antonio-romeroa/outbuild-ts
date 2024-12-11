@@ -9,6 +9,7 @@
     "docker:stop": "docker compose down",
     "dev": "nodemon src/index.ts",
     "job": "nodemon src/jobs/worker.ts",
+    "job:prod": "npm run build && node ./dist/jobs/worker.js",
     "build": "tsc",
     "serve": "npm run build && node ./dist/index.js"
   },
